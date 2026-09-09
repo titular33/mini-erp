@@ -2,9 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>frontend</title>
+    <script>
+      // Restaura a rota codificada pelo redirect de public/404.html (ver comentário lá).
+      (function () {
+        var search = window.location.search;
+        if (search[1] === "p" && search[2] === "=") {
+          var params = new URLSearchParams(search.slice(1));
+          var path = (params.get("p") || "").replace(/~and~/g, "&");
+          var query = (params.get("q") || "").replace(/~and~/g, "&");
+          window.history.replaceState(
+            null,
+            "",
+            window.location.pathname + path + (query ? "?" + query : "") + window.location.hash,
+          );
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
