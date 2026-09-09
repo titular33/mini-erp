@@ -1,7 +1,15 @@
 import { http, HttpResponse } from "msw";
 import { db } from "./data";
 import { products } from "./productsData";
-import type { Product, ProductInput, Supplier, SupplierInput } from "../types/api";
+import { purchaseOrders } from "./purchaseOrdersData";
+import type {
+  Product,
+  ProductInput,
+  PurchaseOrder,
+  PurchaseOrderInput,
+  Supplier,
+  SupplierInput,
+} from "../types/api";
 
 const BASE = "/api/v1";
 
@@ -109,5 +117,43 @@ export const handlers = [
     const input = (await request.json()) as ProductInput;
     products[idx] = { ...products[idx], ...input };
     return HttpResponse.json(products[idx]);
+  }),
+
+  http.get(`${BASE}/purchase-orders`, ({ request }) => {
+    const url = new URL(request.url);
+    const status = url.searchParams.get("status");
+    let result = purchaseOrders;
+    if (status) result = result.filter((po) => po.status === status);
+    return HttpResponse.json(result);
+  }),
+
+  http.get(`${BASE}/purchase-orders/:id`, ({ params }) => {
+    const order = purchaseOrders.find((po) => po.id === params.id);
+    if (!order) return notFound("Pedido de compra não encontrado");
+    return HttpResponse.json(order);
+  }),
+
+  http.post(`${BASE}/purchase-orders`, async ({ request }) => {
+    const input = (await request.json()) as PurchaseOrderInput;
+    const totalAmount = input.items.reduce(
+      (sum, item) => sum + item.quantityOrdered * item.unitPrice,
+      0,
+    );
+    const created: PurchaseOrder = {
+      id: crypto.randomUUID(),
+      supplierId: input.supplierId,
+      status: "draft",
+      items: input.items.map((item) => ({
+        id: crypto.randomUUID(),
+        productId: item.productId,
+        quantityOrdered: item.quantityOrdered,
+        quantityReceived: 0,
+        unitPrice: item.unitPrice,
+      })),
+      totalAmount,
+      createdAt: new Date().toISOString(),
+    };
+    purchaseOrders.push(created);
+    return HttpResponse.json(created, { status: 201 });
   }),
 ];

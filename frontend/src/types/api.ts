@@ -52,6 +52,17 @@ export interface PurchaseOrder {
   createdAt: string;
 }
 
+export interface PurchaseOrderItemInput {
+  productId: string;
+  quantityOrdered: number;
+  unitPrice: number;
+}
+
+export interface PurchaseOrderInput {
+  supplierId: string;
+  items: PurchaseOrderItemInput[];
+}
+
 export interface DashboardSummary {
   totalStockValue: number;
   pendingPurchaseOrders: number;

@@ -3,6 +3,8 @@ import { SuppliersListPage } from "./pages/suppliers/SuppliersListPage";
 import { SupplierFormPage } from "./pages/suppliers/SupplierFormPage";
 import { ProductsListPage } from "./pages/products/ProductsListPage";
 import { ProductFormPage } from "./pages/products/ProductFormPage";
+import { PurchaseOrdersListPage } from "./pages/purchase-orders/PurchaseOrdersListPage";
+import { PurchaseOrderFormPage } from "./pages/purchase-orders/PurchaseOrderFormPage";
 import { LoginPage } from "./pages/login/LoginPage";
 import { RequireAuth } from "./auth/RequireAuth";
 import { useAuth } from "./auth/AuthContext";
@@ -14,6 +16,7 @@ function AppLayout() {
       <nav style={{ marginBottom: 24, display: "flex", gap: 16, alignItems: "center" }}>
         <Link to="/suppliers">Fornecedores</Link>
         <Link to="/products">Produtos</Link>
+        <Link to="/purchase-orders">Pedidos de compra</Link>
         <span style={{ marginLeft: "auto" }}>{user?.name}</span>
         <button type="button" onClick={logout}>
           Sair
@@ -37,6 +40,8 @@ export function App() {
           <Route path="/products" element={<ProductsListPage />} />
           <Route path="/products/new" element={<ProductFormPage />} />
           <Route path="/products/:id" element={<ProductFormPage />} />
+          <Route path="/purchase-orders" element={<PurchaseOrdersListPage />} />
+          <Route path="/purchase-orders/new" element={<PurchaseOrderFormPage />} />
         </Route>
       </Routes>
     </div>
