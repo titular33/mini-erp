@@ -39,7 +39,9 @@ export function PurchaseOrdersListPage() {
         <tbody>
           {orders?.map((order) => (
             <tr key={order.id}>
-              <td>{supplierName(order.supplierId)}</td>
+              <td>
+                <Link to={`/purchase-orders/${order.id}`}>{supplierName(order.supplierId)}</Link>
+              </td>
               <td>{STATUS_LABEL[order.status]}</td>
               <td>{order.items.length}</td>
               <td>R$ {order.totalAmount.toFixed(2)}</td>

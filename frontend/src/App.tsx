@@ -5,6 +5,7 @@ import { ProductsListPage } from "./pages/products/ProductsListPage";
 import { ProductFormPage } from "./pages/products/ProductFormPage";
 import { PurchaseOrdersListPage } from "./pages/purchase-orders/PurchaseOrdersListPage";
 import { PurchaseOrderFormPage } from "./pages/purchase-orders/PurchaseOrderFormPage";
+import { PurchaseOrderDetailPage } from "./pages/purchase-orders/PurchaseOrderDetailPage";
 import { LoginPage } from "./pages/login/LoginPage";
 import { RequireAuth } from "./auth/RequireAuth";
 import { useAuth } from "./auth/AuthContext";
@@ -42,6 +43,7 @@ export function App() {
           <Route path="/products/:id" element={<ProductFormPage />} />
           <Route path="/purchase-orders" element={<PurchaseOrdersListPage />} />
           <Route path="/purchase-orders/new" element={<PurchaseOrderFormPage />} />
+          <Route path="/purchase-orders/:id" element={<PurchaseOrderDetailPage />} />
         </Route>
       </Routes>
     </div>

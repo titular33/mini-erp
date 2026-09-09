@@ -63,6 +63,26 @@ export interface PurchaseOrderInput {
   items: PurchaseOrderItemInput[];
 }
 
+export interface InventoryMovement {
+  id: string;
+  productId: string;
+  type: "in" | "out";
+  quantity: number;
+  unitCost: number;
+  reason: "purchase_receipt" | "manual_adjustment";
+  referenceId: string;
+  createdAt: string;
+}
+
+export interface ReceivePurchaseOrderItemInput {
+  purchaseOrderItemId: string;
+  quantityReceived: number;
+}
+
+export interface ReceivePurchaseOrderInput {
+  items: ReceivePurchaseOrderItemInput[];
+}
+
 export interface DashboardSummary {
   totalStockValue: number;
   pendingPurchaseOrders: number;
