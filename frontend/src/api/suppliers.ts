@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { http } from "../lib/http";
-import type { Supplier, SupplierInput } from "../types/api";
+import type { Supplier, SupplierInput, SupplierStatus } from "../types/api";
 
 const SUPPLIERS_KEY = ["suppliers"] as const;
 
@@ -16,6 +16,11 @@ async function createSupplier(input: SupplierInput): Promise<Supplier> {
 
 async function updateSupplier(id: string, input: SupplierInput): Promise<Supplier> {
   const { data } = await http.put<Supplier>(`/suppliers/${id}`, input);
+  return data;
+}
+
+async function toggleSupplierStatus(id: string, status: SupplierStatus): Promise<Supplier> {
+  const { data } = await http.patch<Supplier>(`/suppliers/${id}/status`, { status });
   return data;
 }
 
@@ -36,6 +41,15 @@ export function useUpdateSupplier() {
   return useMutation({
     mutationFn: ({ id, input }: { id: string; input: SupplierInput }) =>
       updateSupplier(id, input),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: SUPPLIERS_KEY }),
+  });
+}
+
+export function useToggleSupplierStatus() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: SupplierStatus }) =>
+      toggleSupplierStatus(id, status),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: SUPPLIERS_KEY }),
   });
 }
