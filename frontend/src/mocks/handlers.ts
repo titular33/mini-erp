@@ -1,6 +1,7 @@
 import { http, HttpResponse } from "msw";
 import { db } from "./data";
-import type { Supplier, SupplierInput } from "../types/api";
+import { products } from "./productsData";
+import type { Product, ProductInput, Supplier, SupplierInput } from "../types/api";
 
 const BASE = "/api/v1";
 
@@ -70,5 +71,43 @@ export const handlers = [
     const { status } = (await request.json()) as { status: Supplier["status"] };
     db.suppliers[idx].status = status;
     return HttpResponse.json(db.suppliers[idx]);
+  }),
+
+  http.get(`${BASE}/products`, ({ request }) => {
+    const url = new URL(request.url);
+    const belowMinStock = url.searchParams.get("belowMinStock");
+    const search = url.searchParams.get("search")?.toLowerCase();
+
+    let result = products;
+    if (belowMinStock === "true") {
+      result = result.filter((p) => p.currentStock < p.minStock);
+    }
+    if (search) {
+      result = result.filter(
+        (p) => p.name.toLowerCase().includes(search) || p.sku.toLowerCase().includes(search),
+      );
+    }
+    return HttpResponse.json(result);
+  }),
+
+  http.get(`${BASE}/products/:id`, ({ params }) => {
+    const product = products.find((p) => p.id === params.id);
+    if (!product) return notFound("Produto não encontrado");
+    return HttpResponse.json(product);
+  }),
+
+  http.post(`${BASE}/products`, async ({ request }) => {
+    const input = (await request.json()) as ProductInput;
+    const created: Product = { ...input, id: crypto.randomUUID(), currentStock: 0, averageCost: 0 };
+    products.push(created);
+    return HttpResponse.json(created, { status: 201 });
+  }),
+
+  http.put(`${BASE}/products/:id`, async ({ params, request }) => {
+    const idx = products.findIndex((p) => p.id === params.id);
+    if (idx === -1) return notFound("Produto não encontrado");
+    const input = (await request.json()) as ProductInput;
+    products[idx] = { ...products[idx], ...input };
+    return HttpResponse.json(products[idx]);
   }),
 ];
