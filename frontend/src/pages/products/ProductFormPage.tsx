@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCreateProduct, useProducts, useUpdateProduct } from "../../api/products";
-import { productSchema, type ProductFormValues } from "./productSchema";
+import { productSchema, type ProductFormInput, type ProductFormValues } from "./productSchema";
 
 export function ProductFormPage() {
   const { id } = useParams();
@@ -19,7 +19,7 @@ export function ProductFormPage() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<ProductFormValues>({
+  } = useForm<ProductFormInput, unknown, ProductFormValues>({
     resolver: zodResolver(productSchema),
     values: existing
       ? { sku: existing.sku, name: existing.name, unit: existing.unit, minStock: existing.minStock }

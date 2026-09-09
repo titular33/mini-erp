@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useSuppliers } from "../../api/suppliers";
 import { useProducts } from "../../api/products";
 import { useCreatePurchaseOrder } from "../../api/purchaseOrders";
-import { purchaseOrderSchema, type PurchaseOrderFormValues } from "./purchaseOrderSchema";
+import {
+  purchaseOrderSchema,
+  type PurchaseOrderFormInput,
+  type PurchaseOrderFormValues,
+} from "./purchaseOrderSchema";
 
 export function PurchaseOrderFormPage() {
   const navigate = useNavigate();
@@ -18,7 +22,7 @@ export function PurchaseOrderFormPage() {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<PurchaseOrderFormValues>({
+  } = useForm<PurchaseOrderFormInput, unknown, PurchaseOrderFormValues>({
     resolver: zodResolver(purchaseOrderSchema),
     defaultValues: {
       supplierId: "",
@@ -31,7 +35,9 @@ export function PurchaseOrderFormPage() {
   // sem precisar de N useState soltos nem re-render manual da lista.
   const { fields, append, remove } = useFieldArray({ control, name: "items" });
   const items = watch("items");
-  const total = items?.reduce((sum, item) => sum + (item.quantityOrdered || 0) * (item.unitPrice || 0), 0) ?? 0;
+  const total =
+    items?.reduce((sum, item) => sum + (Number(item.quantityOrdered) || 0) * (Number(item.unitPrice) || 0), 0) ??
+    0;
 
   async function onSubmit(values: PurchaseOrderFormValues) {
     await createPurchaseOrder.mutateAsync(values);

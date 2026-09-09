@@ -11,4 +11,5 @@ export const purchaseOrderSchema = z.object({
   items: z.array(itemSchema).min(1, "Adicione ao menos um item"),
 });
 
-export type PurchaseOrderFormValues = z.infer<typeof purchaseOrderSchema>;
+export type PurchaseOrderFormInput = z.input<typeof purchaseOrderSchema>;
+export type PurchaseOrderFormValues = z.output<typeof purchaseOrderSchema>;

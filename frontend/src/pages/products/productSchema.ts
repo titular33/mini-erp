@@ -7,4 +7,9 @@ export const productSchema = z.object({
   minStock: z.coerce.number().min(0, "Estoque mínimo não pode ser negativo"),
 });
 
-export type ProductFormValues = z.infer<typeof productSchema>;
+// z.coerce.number() tem tipo de ENTRADA "unknown" (o que o input HTML manda,
+// string) e tipo de SAÍDA "number" (depois da coerção do Zod). ProductFormInput
+// é o que o formulário manipula (register/defaultValues); ProductFormValues é o
+// que chega em onSubmit já validado e coagido.
+export type ProductFormInput = z.input<typeof productSchema>;
+export type ProductFormValues = z.output<typeof productSchema>;
