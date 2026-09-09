@@ -64,10 +64,13 @@ Objetivo da sprint: **fechar o módulo de Fornecedores e iniciar Produtos, com a
 | História | Pontos | Status |
 |---|---|---|
 | US-03 Listar/cadastrar fornecedores | 3 | Concluído |
-| US-04 Editar fornecedor | 2 | Backlog da sprint |
-| US-05 Inativar fornecedor | 1 | Backlog da sprint |
-| US-01 Login JWT | 3 | Backlog da sprint |
-| US-06 Cadastrar produtos | 3 | Backlog da sprint |
+| US-04 Editar fornecedor | 2 | Concluído |
+| US-05 Inativar fornecedor | 1 | Concluído |
+| US-01 Login JWT | 3 | Concluído |
+| US-06 Cadastrar produtos | 3 | Concluído |
+
+Sprint 1 fechada: 12/12 pontos entregues. Todas as histórias validadas
+end-to-end em navegador real (Playwright), não só por type-check.
 
 Capacidade da sprint: ~12 pontos (ajustável conforme seu ritmo real de estudo).
 
@@ -77,10 +80,26 @@ Vou te ajudar a montar isso no GitHub Projects assim que o push para o remoto
 estiver funcionando (dependemos da configuração SSH que ficou pendente). Por
 enquanto, o board vive neste documento; colunas e WIP limit como descrito acima.
 
-**Sprint 1 — estado atual:**
+**Estado atual (fim da Sprint 1):**
 
-- **Backlog:** US-07, US-08, US-09, US-10, US-11, US-12, US-13, US-14, US-15
-- **Sprint Atual (To Do):** US-04, US-05, US-01, US-06
+- **Backlog:** US-07 (restante: filtro dedicado), US-08, US-09, US-10, US-11, US-12, US-13, US-14, US-15
+- **Sprint Atual (To Do):** _(vazio — planejar Sprint 2)_
 - **Em progresso (WIP≤2):** _(vazio)_
 - **Em revisão:** _(vazio)_
-- **Concluído:** US-03
+- **Concluído:** US-01, US-03, US-04, US-05, US-06
+
+## Sprint 2 (proposta)
+
+Objetivo: **fluxo completo de Pedidos de Compra até o recebimento**, que é o
+coração do ERP — é aqui que estoque, fornecedores e produtos se conectam.
+
+| História | Pontos |
+|---|---|
+| US-08 Criar pedido de compra com itens | 5 |
+| US-09 Submeter pedido | 3 |
+| US-10 Receber pedido (parcial/total) + gerar movimentações de estoque | 8 |
+| US-11 Cancelar pedido | 2 |
+
+Capacidade: 18 pontos — acima da média da Sprint 1 (12), então vale
+revisar no meio da sprint se US-10 (a mais complexa) precisa ser
+quebrada em sub-tarefas menores.
