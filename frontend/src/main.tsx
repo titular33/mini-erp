@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
 import { App } from './App.tsx'
+import { AuthProvider } from './auth/AuthContext.tsx'
 
 const queryClient = new QueryClient();
 
@@ -18,7 +19,9 @@ enableMocking().then(() => {
     <StrictMode>
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-          <App />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
         </QueryClientProvider>
       </BrowserRouter>
     </StrictMode>,

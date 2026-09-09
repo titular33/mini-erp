@@ -15,3 +15,18 @@ http.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// 401 aqui significa token ausente/expirado — AuthContext não é acessível fora de
+// componentes React, então limpamos a sessão diretamente no storage e forçamos
+// reload para /login, que re-hidrata o AuthProvider já deslogado.
+http.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401 && window.location.pathname !== "/login") {
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("auth_user");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  },
+);
