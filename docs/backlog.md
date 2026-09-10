@@ -86,7 +86,7 @@ enquanto, o board vive neste documento; colunas e WIP limit como descrito acima.
 - **Sprint Atual (To Do):** _(vazio — planejar Sprint 2)_
 - **Em progresso (WIP≤2):** _(vazio)_
 - **Em revisão:** _(vazio)_
-- **Concluído:** US-01, US-03, US-04, US-05, US-06
+- **Concluído:** US-01, US-03, US-04, US-05, US-06, US-08, US-09, US-10, US-11
 
 ## Sprint 2 (proposta)
 
@@ -103,3 +103,26 @@ coração do ERP — é aqui que estoque, fornecedores e produtos se conectam.
 Capacidade: 18 pontos — acima da média da Sprint 1 (12), então vale
 revisar no meio da sprint se US-10 (a mais complexa) precisa ser
 quebrada em sub-tarefas menores.
+
+Sprint 2 fechada: 18/18 pontos entregues (US-08 a US-11), validados
+end-to-end em navegador. Trabalho extra fora do escopo original da
+sprint, mas que fazia sentido encadear: front-end publicado como demo
+estática no GitHub Pages, e o schema do PostgreSQL modelado
+(migrations + view de estoque derivado do ledger) — ainda não
+executado contra um Postgres real.
+
+## Sprint 3 (proposta)
+
+Objetivo: **sair do mock — plugar um back-end real** (ainda a decidir
+entre .NET e Node primeiro) contra o schema já modelado, começando
+pelo módulo de Fornecedores como fatia vertical de referência.
+
+| História | Pontos |
+|---|---|
+| US-16 Rodar Postgres local (Docker) e aplicar as migrations | 2 |
+| US-17 API .NET ou Node: CRUD de Fornecedores contra o Postgres real | 5 |
+| US-18 Plugar o front-end na API real (trocar MSW por VITE_API_BASE_URL) | 3 |
+| US-19 Testes unitários da API para as regras de negócio de Fornecedores | 3 |
+
+Capacidade: 13 pontos — mais conservadora, já que envolve ferramental
+novo (Docker, ORM, testes no back-end escolhido).
